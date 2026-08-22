@@ -1,1 +1,1 @@
-module contracts
+module github.com/aenzu/contracts
