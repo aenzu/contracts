@@ -11,21 +11,21 @@ gen: docker-build
 	bash -c '\
 		set -e; \
 		PROTO_INCLUDES="-I /app -I /usr/local/include/googleapis"; \
+		MODULE_OPT="--go_opt=module=github.com/aenzu/contracts"; \
+		GRPC_MODULE_OPT="--go-grpc_opt=module=github.com/aenzu/contracts"; \
 		\
 		echo ">> Processing pagination"; \
-		mkdir -p /app/pagination/go; \
 		protoc $$PROTO_INCLUDES \
-			--go_out=/app/pagination/go \
-			--go_opt=paths=source_relative \
+			--go_out=/app \
+			$$MODULE_OPT \
 			pagination/pagination.proto; \
 		\
 		echo ">> Processing account"; \
-		mkdir -p /app/account/go; \
 		protoc $$PROTO_INCLUDES \
-			--go_out=/app/account/go \
-			--go_opt=paths=source_relative \
-			--go-grpc_out=/app/account/go \
-			--go-grpc_opt=paths=source_relative \
+			--go_out=/app \
+			$$MODULE_OPT \
+			--go-grpc_out=/app \
+			$$GRPC_MODULE_OPT \
 			account/account_model.proto \
 			account/account_service.proto; \
 	'
