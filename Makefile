@@ -20,6 +20,12 @@ gen: docker-build
 			$$MODULE_OPT \
 			pagination/pagination.proto; \
 		\
+		echo ">> Processing auth"; \
+        protoc $$PROTO_INCLUDES \
+        --go_out=/app \
+        $$MODULE_OPT \
+        auth/auth_service.proto; \
+        \
 		echo ">> Processing account"; \
 		protoc $$PROTO_INCLUDES \
 			--go_out=/app \
@@ -31,4 +37,4 @@ gen: docker-build
 	'
 
 clean:
-	find account pagination -type d -name go -exec rm -rf {} +
+	find account pagination auth -type d -name go -exec rm -rf {} +
